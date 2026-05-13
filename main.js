@@ -1,0 +1,179 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/*
+  Lista de los 7 elementos del set-up de Blender:
+  1. Escritorio
+  2. Monitor
+  3. Teclado
+  4. Mouse
+  5. Laptop/PC
+  6. Lámpara (objeto creativo)
+  7. Planta (objeto creativo)
+*/
+
+// --- 1. Inicialización de Three.js ---
+const container = document.getElementById('canvas-container');
+
+// Escena
+const scene = new THREE.Scene();
+
+
+
+// Cámara
+const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+camera.position.set(5, 5, 5);
+
+// Renderizador
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+// Controles (OrbitControls)
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+
+// --- 2. Iluminación ---
+// Ambient Light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Intensidad base para Dark Mode
+scene.add(ambientLight);
+
+// Directional Light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 10, 7);
+scene.add(directionalLight);
+
+// --- 3. Carga del Modelo 3D ---
+const loader = new GLTFLoader();
+
+// Añadir un mensaje de carga visual
+const loadingEl = document.createElement('div');
+loadingEl.style.position = 'absolute';
+loadingEl.style.top = '10px';
+loadingEl.style.left = '10px';
+loadingEl.style.color = 'white';
+loadingEl.style.background = 'rgba(0,0,0,0.7)';
+loadingEl.style.padding = '10px';
+loadingEl.style.zIndex = '1000';
+loadingEl.innerText = 'Cargando modelo...';
+container.appendChild(loadingEl);
+
+loader.load(
+    'Setup_graf.glb', 
+    (gltf) => {
+        const model = gltf.scene;
+        
+        // Autocentrar y escalar el modelo automáticamente
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        const maxDim = Math.max(size.x, size.y, size.z);
+        
+        let meshCount = 0;
+        let vertexCount = 0;
+        model.traverse((child) => {
+            if (child.isMesh) {
+                meshCount++;
+                if (child.geometry && child.geometry.attributes.position) {
+                    vertexCount += child.geometry.attributes.position.count;
+                }
+            }
+        });
+
+        if (maxDim === 0 || meshCount === 0) {
+            console.error('El modelo está vacío o no tiene tamaño.');
+            loadingEl.innerHTML = `<span style="color:red;">Error de Exportación:</span><br>
+            Tu archivo Setup_graf.glb tiene <b>${meshCount} mallas</b> y <b>${vertexCount} vértices</b>.<br>
+            El tamaño físico calculado es: ${size.x.toFixed(2)} x ${size.y.toFixed(2)} x ${size.z.toFixed(2)}.<br>
+            Esto significa que Blender exportó un archivo vacío o sin modelos 3D visibles.`;
+            return;
+        }
+
+        // El fov es 45. Para que un objeto de tamaño 5 entre en la pantalla:
+        // Distancia = (tamaño / 2) / tan(fov / 2)
+        // distance = 2.5 / tan(22.5 grados) = 6.03
+        const cameraZ = 9.0; // Distancia fija segura porque siempre escalamos a tamaño 5
+
+        // Escalar modelo si es demasiado grande o pequeño (normalizar a tamaño 5)
+        const scale = 5 / maxDim;
+        model.scale.setScalar(scale);
+
+        // Volver a calcular centro después de escalar
+        const boxScaled = new THREE.Box3().setFromObject(model);
+        const centerScaled = boxScaled.getCenter(new THREE.Vector3());
+
+        model.position.x += (model.position.x - centerScaled.x);
+        model.position.y += (model.position.y - centerScaled.y);
+        model.position.z += (model.position.z - centerScaled.z);
+        
+        scene.add(model);
+        
+        camera.position.set(0, 2, cameraZ);
+        controls.target.set(0, 0, 0);
+        controls.update();
+
+        loadingEl.innerText = 'Modelo cargado y ajustado exitosamente.';
+        setTimeout(() => loadingEl.remove(), 3000);
+    },
+    (xhr) => {
+        const percent = Math.round((xhr.loaded / xhr.total) * 100);
+        loadingEl.innerText = `Cargando modelo: ${percent}% completado`;
+    },
+    (error) => {
+        console.error('Error:', error);
+        loadingEl.innerHTML = `<span style="color:red;">Error al cargar el modelo 3D.</span><br>
+        1. Asegúrate de que el archivo es "Setup_graf.glb".<br>
+        2. <b>Si abriste el archivo con doble clic, los navegadores bloquean el modelo 3D por seguridad (CORS).</b><br>
+        Debes usar Live Server en VS Code.`;
+    }
+);
+
+// --- 4. Animación (Render Loop) ---
+const clock = new THREE.Clock();
+
+function animate() {
+    requestAnimationFrame(animate);
+    
+    // Actualizar controles para el damping
+    controls.update();
+
+    // Renderizar la escena
+    renderer.render(scene, camera);
+}
+animate();
+
+// --- 5. Resize Handler ---
+window.addEventListener('resize', () => {
+    if (!container) return;
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+});
+
+// --- 6. Interactividad: Cambio de Tema y Luces ---
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+themeToggleBtn.addEventListener('click', () => {
+    // Toggle en el body
+    document.body.classList.toggle('light-theme');
+    
+    // Comprobar qué tema está activo
+    const isLight = document.body.classList.contains('light-theme');
+    
+    // Ajustar iluminación de Three.js
+    if (isLight) {
+        // Tema Claro: Luces más intensas
+        ambientLight.intensity = 1.2;
+        directionalLight.intensity = 2;
+        scene.fog = new THREE.FogExp2(0xf8fafc, 0.02); // Opcional para blending con el fondo
+    } else {
+        // Tema Oscuro: Luces más tenues (creando ambiente)
+        ambientLight.intensity = 0.5;
+        directionalLight.intensity = 1;
+        scene.fog = null;
+    }
+});

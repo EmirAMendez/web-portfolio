@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Web - Frontend Senior</title>
+    <meta name="description" content="Portafolio web profesional con experiencia 3D">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Import map for Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+
+<body class="dark-theme">
+    <header>
+        <div class="header-container">
+            <div class="profile-info">
+                <img src="https://ui-avatars.com/api/?name=Emir+Mendez&background=random&size=128"
+                    alt="Avatar del alumno" class="avatar">
+                <h1>Emir Mendez</h1>
+            </div>
+            <nav>
+                <button id="theme-toggle" aria-label="Cambiar tema" class="btn-theme">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Sección 3D Contenedor Específico -->
+        <section id="hero-3d" class="section">
+            <div class="container">
+                <h2>Mi Espacio de Trabajo</h2>
+                <p>Interactúa con el modelo 3D: Rota, haz zoom y mueve la cámara.</p>
+                <div id="canvas-container"></div>
+            </div>
+        </section>
+
+        <!-- Sobre Mí -->
+        <section id="about" class="section">
+            <div class="container glass-panel">
+                <h2>Sobre Mí</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur.</p>
+            </div>
+        </section>
+
+        <!-- Habilidades -->
+        <section id="skills" class="section">
+            <div class="container glass-panel">
+                <h2>Habilidades</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">HTML5</div>
+                    <div class="skill-item">CSS3 & Grid</div>
+                    <div class="skill-item">JavaScript (ES6+)</div>
+                    <div class="skill-item">Three.js & WebGL</div>
+                    <div class="skill-item">React / Vue</div>
+                    <div class="skill-item">UI/UX Design</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proyectos -->
+        <section id="projects" class="section">
+            <div class="container glass-panel">
+                <h2>Proyectos</h2>
+                <div class="projects-grid">
+                    <article class="project-card">
+                        <div class="rive-placeholder">
+                            <!-- Espacio destacado para el proyecto de animación Rive -->
+                            <p>[ Proyecto de Animación Rive ]</p>
+                        </div>
+                        <div class="project-info">
+                            <h3>Animación Interactiva Rive</h3>
+                            <p>Integración de animaciones Rive con control de estados en la web.</p>
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-image" style="background-color: var(--accent-color);"></div>
+                        <div class="project-info">
+                            <h3>Dashboard WebGL</h3>
+                            <p>Visualización de datos usando shaders personalizados.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contact" class="section">
+            <div class="container glass-panel">
+                <h2>Contacto</h2>
+                <p>¿Interesado en trabajar juntos? Encuéntrame en mis redes sociales:</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" class="btn">LinkedIn</a>
+                    <a href="#" target="_blank" class="btn">GitHub</a>
+                    <a href="#" target="_blank" class="btn">Twitter</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Emir Mendez. Creado con Three.js y mucho ❤️.</p>
+        </div>
+    </footer>
+
+    <!-- Archivo JS separado -->
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
