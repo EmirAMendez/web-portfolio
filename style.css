@@ -38,6 +38,18 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Background Particles */
+#bg-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+
 /* Layout (Mobile First) */
 .container {
     width: 100%;

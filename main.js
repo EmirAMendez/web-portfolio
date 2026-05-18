@@ -177,3 +177,79 @@ themeToggleBtn.addEventListener('click', () => {
         scene.fog = null;
     }
 });
+
+// --- 7. Reset Camera ---
+const resetCameraBtn = document.getElementById('reset-camera-btn');
+if (resetCameraBtn) {
+    resetCameraBtn.addEventListener('click', () => {
+        // Posición inicial de la cámara configurada en la carga (0, 2, 9) y target en (0, 0, 0)
+        camera.position.set(0, 2, 9.0);
+        controls.target.set(0, 0, 0);
+        controls.update();
+    });
+}
+
+// --- 8. Sistema de Partículas de Fondo ---
+const bgCanvas = document.getElementById('bg-particles');
+if (bgCanvas) {
+    const ctx = bgCanvas.getContext('2d');
+    let particlesArray = [];
+    const numberOfParticles = 80; // Número de partículas en pantalla
+
+    function resizeCanvas() {
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * bgCanvas.width;
+            this.y = Math.random() * bgCanvas.height;
+            this.size = Math.random() * 2 + 0.5; // Tamaño aleatorio
+            this.speedY = Math.random() * 1 + 0.2; // Velocidad de caída
+        }
+        update() {
+            this.y += this.speedY;
+            // Reposicionar en la parte superior si sale de la pantalla
+            if (this.y > bgCanvas.height) {
+                this.y = 0 - this.size;
+                this.x = Math.random() * bgCanvas.width;
+            }
+        }
+        draw() {
+            // Comprobar el tema actual para definir el color
+            const isLight = document.body.classList.contains('light-theme');
+            // Blanco semi-transparente para modo oscuro, azul pastel para modo claro
+            ctx.fillStyle = isLight ? 'rgba(135, 206, 235, 0.8)' : 'rgba(255, 255, 255, 0.5)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function initParticles() {
+        particlesArray = [];
+        for (let i = 0; i < numberOfParticles; i++) {
+            particlesArray.push(new Particle());
+        }
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+        }
+        requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    // Reajustar el canvas al cambiar el tamaño de la ventana
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        initParticles();
+    });
+}

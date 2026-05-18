@@ -23,6 +23,9 @@
 </head>
 
 <body class="dark-theme">
+    <!-- Canvas for background particles -->
+    <canvas id="bg-particles"></canvas>
+
     <header>
         <div class="header-container">
             <div class="profile-info">
@@ -45,6 +48,7 @@
             <div class="container">
                 <h2>Mi Espacio de Trabajo</h2>
                 <p>Interactúa con el modelo 3D: Rota, haz zoom y mueve la cámara.</p>
+                <button id="reset-camera-btn" class="btn" style="margin-bottom: 20px;">Resetear Cámara</button>
                 <div id="canvas-container"></div>
             </div>
         </section>
@@ -88,6 +92,7 @@
                         <div class="project-info">
                             <h3>Animación Interactiva Rive</h3>
                             <p>Integración de animaciones Rive con control de estados en la web.</p>
+                            <a href="https://github.com/EmirAMendez?tab=repositories" target="_blank" class="btn" style="margin-top: 15px; display: inline-block;">Ver Repositorio</a>
                         </div>
                     </article>
                     <article class="project-card">
@@ -95,6 +100,7 @@
                         <div class="project-info">
                             <h3>Dashboard WebGL</h3>
                             <p>Visualización de datos usando shaders personalizados.</p>
+                            <a href="https://github.com/EmirAMendez?tab=repositories" target="_blank" class="btn" style="margin-top: 15px; display: inline-block;">Ver Repositorio</a>
                         </div>
                     </article>
                 </div>
@@ -108,7 +114,7 @@
                 <p>¿Interesado en trabajar juntos? Encuéntrame en mis redes sociales:</p>
                 <div class="social-links">
                     <a href="#" target="_blank" class="btn">LinkedIn</a>
-                    <a href="#" target="_blank" class="btn">GitHub</a>
+                    <a href="https://github.com/EmirAMendez" target="_blank" class="btn">GitHub</a>
                     <a href="#" target="_blank" class="btn">Twitter</a>
                 </div>
             </div>
@@ -120,6 +126,11 @@
             <p>&copy; 2026 Emir Mendez. Creado con Three.js y mucho ❤️.</p>
         </div>
     </footer>
+
+    <!-- YouTube Background Music -->
+    <div style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none;">
+        <iframe src="https://www.youtube.com/embed/4jWzGkRsHw8?autoplay=1&loop=1&playlist=4jWzGkRsHw8" allow="autoplay; encrypted-media"></iframe>
+    </div>
 
     <!-- Archivo JS separado -->
     <script type="module" src="main.js"></script>
