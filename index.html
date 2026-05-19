@@ -26,14 +26,26 @@
     <!-- Canvas for background particles -->
     <canvas id="bg-particles"></canvas>
 
-    <header>
+    <div class="split-layout">
+        <!-- Panel Izquierdo: Modelo 3D -->
+        <div class="canvas-panel">
+            <div id="canvas-container"></div>
+        </div>
+
+        <!-- Panel Derecho: Contenido -->
+        <div class="content-panel">
+            <header>
         <div class="header-container">
             <div class="profile-info">
                 <img src="https://ui-avatars.com/api/?name=Emir+Mendez&background=random&size=128"
                     alt="Avatar del alumno" class="avatar">
                 <h1>Emir Mendez</h1>
             </div>
-            <nav>
+            <nav style="display: flex; gap: 10px;">
+                <button id="mute-btn" aria-label="Mutear música" class="btn-theme">
+                    <span class="icon-unmute">🔊</span>
+                    <span class="icon-mute" style="display: none;">🔇</span>
+                </button>
                 <button id="theme-toggle" aria-label="Cambiar tema" class="btn-theme">
                     <span class="icon-sun">☀️</span>
                     <span class="icon-moon">🌙</span>
@@ -45,11 +57,10 @@
     <main>
         <!-- Sección 3D Contenedor Específico -->
         <section id="hero-3d" class="section">
-            <div class="container">
+            <div class="container glass-panel">
                 <h2>Mi Espacio de Trabajo</h2>
-                <p>Interactúa con el modelo 3D: Rota, haz zoom y mueve la cámara.</p>
-                <button id="reset-camera-btn" class="btn" style="margin-bottom: 20px;">Resetear Cámara</button>
-                <div id="canvas-container"></div>
+                <p>Interactúa con el modelo 3D: Rota, haz zoom y mueve la cámara en el panel.</p>
+                <button id="reset-camera-btn" class="btn">Resetear Cámara</button>
             </div>
         </section>
 
@@ -121,16 +132,16 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Emir Mendez. Creado con Three.js y mucho ❤️.</p>
+            <footer>
+                <div class="container">
+                    <p>&copy; 2026 Emir Mendez. Creado con Three.js y mucho ❤️.</p>
+                </div>
+            </footer>
         </div>
-    </footer>
-
-    <!-- YouTube Background Music -->
-    <div style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none;">
-        <iframe src="https://www.youtube.com/embed/4jWzGkRsHw8?autoplay=1&loop=1&playlist=4jWzGkRsHw8" allow="autoplay; encrypted-media"></iframe>
     </div>
+
+    <!-- Background Music -->
+    <audio id="bg-audio" src="akari.mp3" loop autoplay></audio>
 
     <!-- Archivo JS separado -->
     <script type="module" src="main.js"></script>

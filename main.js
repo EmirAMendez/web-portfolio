@@ -35,6 +35,8 @@ container.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
+controls.autoRotate = true; // Activar rotación automática
+controls.autoRotateSpeed = 1.5; // Velocidad suave
 
 // --- 2. Iluminación ---
 // Ambient Light
@@ -252,4 +254,42 @@ if (bgCanvas) {
         resizeCanvas();
         initParticles();
     });
+}
+
+// --- 9. Audio Setup ---
+const bgAudio = document.getElementById('bg-audio');
+const muteBtn = document.getElementById('mute-btn');
+if (muteBtn && bgAudio) {
+    const iconUnmute = muteBtn.querySelector('.icon-unmute');
+    const iconMute = muteBtn.querySelector('.icon-mute');
+
+    function updateMuteIcon() {
+        if (bgAudio.muted || bgAudio.paused) {
+            iconUnmute.style.display = 'none';
+            iconMute.style.display = 'inline';
+        } else {
+            iconUnmute.style.display = 'inline';
+            iconMute.style.display = 'none';
+        }
+    }
+
+    // Inicializar icono
+    updateMuteIcon();
+
+    muteBtn.addEventListener('click', () => {
+        if (bgAudio.paused) {
+            bgAudio.play();
+            bgAudio.muted = false;
+        } else {
+            bgAudio.muted = !bgAudio.muted;
+        }
+        updateMuteIcon();
+    });
+
+    // Intentar reproducir en el primer clic si el navegador bloquea el autoplay
+    document.body.addEventListener('click', () => {
+        if (bgAudio.paused && !bgAudio.muted) {
+            bgAudio.play().then(updateMuteIcon).catch(() => {});
+        }
+    }, { once: true });
 }
