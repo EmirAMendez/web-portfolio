@@ -324,10 +324,20 @@ if (muteBtn && bgAudio) {
         updateMuteIcon();
     });
 
-    // Intentar reproducir en el primer clic si el navegador bloquea el autoplay
-    document.body.addEventListener('click', () => {
+    // Intentar reproducir en la primera interacción (clic, toque o tecla) si el navegador bloquea el autoplay
+    const enableAudio = () => {
         if (bgAudio.paused && !bgAudio.muted) {
-            bgAudio.play().then(updateMuteIcon).catch(() => {});
+            bgAudio.play().then(() => {
+                updateMuteIcon();
+                // Limpiar listeners
+                document.body.removeEventListener('click', enableAudio);
+                document.body.removeEventListener('touchstart', enableAudio);
+                document.body.removeEventListener('keydown', enableAudio);
+            }).catch(() => {});
         }
-    }, { once: true });
+    };
+
+    document.body.addEventListener('click', enableAudio, { once: true });
+    document.body.addEventListener('touchstart', enableAudio, { once: true });
+    document.body.addEventListener('keydown', enableAudio, { once: true });
 }
