@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Web - Frontend Senior</title>
-    <meta name="description" content="Portafolio web profesional con experiencia 3D">
+    <title>Web Portfolio - Senior Frontend</title>
+    <meta name="description" content="Professional web portfolio with 3D experience">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,16 +37,16 @@
             <header>
         <div class="header-container">
             <div class="profile-info">
-                <img src="https://ui-avatars.com/api/?name=Emir+Mendez&background=random&size=128"
-                    alt="Avatar del alumno" class="avatar">
+                <img src="assets/yomerengues.jpeg"
+                    alt="Student avatar" class="avatar">
                 <h1>Emir Mendez</h1>
             </div>
             <nav style="display: flex; gap: 10px;">
-                <button id="mute-btn" aria-label="Mutear música" class="btn-theme">
+                <button id="mute-btn" aria-label="Mute music" class="btn-theme">
                     <span class="icon-unmute">🔊</span>
                     <span class="icon-mute" style="display: none;">🔇</span>
                 </button>
-                <button id="theme-toggle" aria-label="Cambiar tema" class="btn-theme">
+                <button id="theme-toggle" aria-label="Change theme" class="btn-theme">
                     <span class="icon-sun">☀️</span>
                     <span class="icon-moon">🌙</span>
                 </button>
@@ -58,27 +58,29 @@
         <!-- Sección 3D Contenedor Específico -->
         <section id="hero-3d" class="section">
             <div class="container glass-panel">
-                <h2>Mi Espacio de Trabajo</h2>
-                <p>Interactúa con el modelo 3D: Rota, haz zoom y mueve la cámara en el panel.</p>
-                <button id="reset-camera-btn" class="btn">Resetear Cámara</button>
+                <h2>My Workspace</h2>
+                <p>Interact with the 3D model: Rotate, zoom and move the camera in the panel.</p>
+                <div class="camera-controls">
+                    <button id="reset-camera-btn" class="btn">Reset Camera</button>
+                    <button id="zoom-figures-btn" class="btn">View Figures</button>
+                    <button id="zoom-monitors-btn" class="btn">View Monitors</button>
+                </div>
             </div>
         </section>
 
-        <!-- Sobre Mí -->
+        <!-- About Me -->
         <section id="about" class="section">
             <div class="container glass-panel">
-                <h2>Sobre Mí</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur.</p>
+                <h2>About Me</h2>
+                <p>A student and technical developer focused on the fields of Networking, and Computer Science. Possesses a solid foundation in multi-platform software development, relational database management and optimization, and the implementation of connectivity protocols.</p>
+                <p>Parallel to this, demonstrates advanced practical experience in hardware architecture, specializing in the assembly, diagnostics, and maintenance of high-performance computer systems tailored for software testing and high-demand technical environments.</p>
             </div>
         </section>
 
-        <!-- Habilidades -->
+        <!-- Skills -->
         <section id="skills" class="section">
             <div class="container glass-panel">
-                <h2>Habilidades</h2>
+                <h2>Skills</h2>
                 <div class="skills-grid">
                     <div class="skill-item">HTML5</div>
                     <div class="skill-item">CSS3 & Grid</div>
@@ -90,43 +92,43 @@
             </div>
         </section>
 
-        <!-- Proyectos -->
+        <!-- Projects -->
         <section id="projects" class="section">
             <div class="container glass-panel">
-                <h2>Proyectos</h2>
+                <h2>Projects</h2>
                 <div class="projects-grid">
                     <article class="project-card">
-                        <div class="rive-placeholder">
-                            <!-- Espacio destacado para el proyecto de animación Rive -->
-                            <p>[ Proyecto de Animación Rive ]</p>
+                        <div class="rive-placeholder" style="padding: 0;">
+                            <img src="assets/rive-project.png" alt="Interactive Rive Animation" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="project-info">
-                            <h3>Animación Interactiva Rive</h3>
-                            <p>Integración de animaciones Rive con control de estados en la web.</p>
-                            <a href="https://github.com/EmirAMendez?tab=repositories" target="_blank" class="btn" style="margin-top: 15px; display: inline-block;">Ver Repositorio</a>
+                            <h3>Interactive Rive Animation</h3>
+                            <p>Integration of Rive animations with state control on the web.</p>
+                            <a href="https://github.com/EmirAMendez/login_whit_rive_animation" target="_blank" class="btn" style="margin-top: 15px; display: inline-block;">View Repository</a>
                         </div>
                     </article>
                     <article class="project-card">
-                        <div class="project-image" style="background-color: var(--accent-color);"></div>
+                        <div class="project-image" style="padding: 0;">
+                            <img src="assets/web-portfolio.png" alt="web-portfolio" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div class="project-info">
-                            <h3>Dashboard WebGL</h3>
-                            <p>Visualización de datos usando shaders personalizados.</p>
-                            <a href="https://github.com/EmirAMendez?tab=repositories" target="_blank" class="btn" style="margin-top: 15px; display: inline-block;">Ver Repositorio</a>
+                            <h3>web-portfolio</h3>
+                            <p>Data visualization using custom shaders.</p>
+                            <a href="https://github.com/EmirAMendez/web-portfolio" target="_blank" class="btn" style="margin-top: 15px; display: inline-block;">View Repository</a>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <!-- Contacto -->
+        <!-- Contact -->
         <section id="contact" class="section">
             <div class="container glass-panel">
-                <h2>Contacto</h2>
-                <p>¿Interesado en trabajar juntos? Encuéntrame en mis redes sociales:</p>
+                <h2>Contact</h2>
+                <p>Interested in working together? Find me on my social networks:</p>
                 <div class="social-links">
-                    <a href="#" target="_blank" class="btn">LinkedIn</a>
                     <a href="https://github.com/EmirAMendez" target="_blank" class="btn">GitHub</a>
-                    <a href="#" target="_blank" class="btn">Twitter</a>
+                    <a href="https://www.instagram.com/emir_ma2114?igsh=MTQwdWpjOHdxMGRmMw==" target="_blank" class="btn">Instagram</a>
                 </div>
             </div>
         </section>
@@ -134,14 +136,14 @@
 
             <footer>
                 <div class="container">
-                    <p>&copy; 2026 Emir Mendez. Creado con Three.js y mucho ❤️.</p>
+                    <p>&copy; 2026 Emir Mendez. Created with Three.js and a lot of ❤️.</p>
                 </div>
             </footer>
         </div>
     </div>
 
     <!-- Background Music -->
-    <audio id="bg-audio" src="akari.mp3" loop autoplay></audio>
+    <audio id="bg-audio" src="assets/akari.mp3" loop autoplay></audio>
 
     <!-- Archivo JS separado -->
     <script type="module" src="main.js"></script>

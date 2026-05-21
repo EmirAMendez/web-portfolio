@@ -64,7 +64,7 @@ loadingEl.innerText = 'Cargando modelo...';
 container.appendChild(loadingEl);
 
 loader.load(
-    'Setup_graf.glb', 
+    'Setup_gra.glb', 
     (gltf) => {
         const model = gltf.scene;
         
@@ -89,7 +89,7 @@ loader.load(
         if (maxDim === 0 || meshCount === 0) {
             console.error('El modelo está vacío o no tiene tamaño.');
             loadingEl.innerHTML = `<span style="color:red;">Error de Exportación:</span><br>
-            Tu archivo Setup_graf.glb tiene <b>${meshCount} mallas</b> y <b>${vertexCount} vértices</b>.<br>
+            Tu archivo Setup_gra.glb tiene <b>${meshCount} mallas</b> y <b>${vertexCount} vértices</b>.<br>
             El tamaño físico calculado es: ${size.x.toFixed(2)} x ${size.y.toFixed(2)} x ${size.z.toFixed(2)}.<br>
             Esto significa que Blender exportó un archivo vacío o sin modelos 3D visibles.`;
             return;
@@ -128,7 +128,7 @@ loader.load(
     (error) => {
         console.error('Error:', error);
         loadingEl.innerHTML = `<span style="color:red;">Error al cargar el modelo 3D.</span><br>
-        1. Asegúrate de que el archivo es "Setup_graf.glb".<br>
+        1. Asegúrate de que el archivo es "Setup_gra.glb".<br>
         2. <b>Si abriste el archivo con doble clic, los navegadores bloquean el modelo 3D por seguridad (CORS).</b><br>
         Debes usar Live Server en VS Code.`;
     }
@@ -137,9 +137,25 @@ loader.load(
 // --- 4. Animación (Render Loop) ---
 const clock = new THREE.Clock();
 
+// Variables para animación de cámara
+let isAnimatingCamera = false;
+let targetCameraPos = new THREE.Vector3();
+let targetControlsPos = new THREE.Vector3();
+
 function animate() {
     requestAnimationFrame(animate);
     
+    // Smooth camera transition
+    if (isAnimatingCamera) {
+        camera.position.lerp(targetCameraPos, 0.05);
+        controls.target.lerp(targetControlsPos, 0.05);
+        
+        // Stop animating when close enough
+        if (camera.position.distanceTo(targetCameraPos) < 0.05 && controls.target.distanceTo(targetControlsPos) < 0.05) {
+            isAnimatingCamera = false;
+        }
+    }
+
     // Actualizar controles para el damping
     controls.update();
 
@@ -180,14 +196,36 @@ themeToggleBtn.addEventListener('click', () => {
     }
 });
 
-// --- 7. Reset Camera ---
+// --- 7. Controles de Cámara Especiales ---
+
+function animateCameraTo(camPos, targetPos) {
+    targetCameraPos.copy(camPos);
+    targetControlsPos.copy(targetPos);
+    isAnimatingCamera = true;
+    controls.autoRotate = false; // Detener auto-rotación al enfocar
+}
+
 const resetCameraBtn = document.getElementById('reset-camera-btn');
 if (resetCameraBtn) {
     resetCameraBtn.addEventListener('click', () => {
-        // Posición inicial de la cámara configurada en la carga (0, 2, 9) y target en (0, 0, 0)
-        camera.position.set(0, 2, 9.0);
-        controls.target.set(0, 0, 0);
-        controls.update();
+        animateCameraTo(new THREE.Vector3(0, 2, 9.0), new THREE.Vector3(0, 0, 0));
+        setTimeout(() => { controls.autoRotate = true; }, 1000); // Reanudar después de un momento
+    });
+}
+
+const zoomFiguresBtn = document.getElementById('zoom-figures-btn');
+if (zoomFiguresBtn) {
+    zoomFiguresBtn.addEventListener('click', () => {
+        // Apuntar hacia las repisas y pósters en la pared izquierda
+        animateCameraTo(new THREE.Vector3(-0.5, 1.3, 1.8), new THREE.Vector3(-2.5, 1.5, -0.5));
+    });
+}
+
+const zoomMonitorsBtn = document.getElementById('zoom-monitors-btn');
+if (zoomMonitorsBtn) {
+    zoomMonitorsBtn.addEventListener('click', () => {
+        // Posiciones aproximadas para los monitores (centro del escritorio)
+        animateCameraTo(new THREE.Vector3(0, 1.2, 2.5), new THREE.Vector3(0, 0.8, -0.5));
     });
 }
 

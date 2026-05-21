@@ -290,6 +290,13 @@ body.light-theme .rive-placeholder, body.light-theme .project-image {
     background-color: var(--accent-color);
 }
 
+.camera-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
 .social-links {
     display: flex;
     gap: 15px;
